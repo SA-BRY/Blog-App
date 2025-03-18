@@ -8,6 +8,7 @@ const Login = () => {
     const [username , setUsername] = React.useState("")
     const [password,setPassword] = React.useState("")
     const [msg,setMsg] = React.useState("")
+
     const notify = (msg) => toast(msg);
 
 
@@ -19,6 +20,8 @@ const Login = () => {
             return
         }
 
+        window.localStorage.setItem("login", true)
+        
         Navigate('/Main')
     }
     

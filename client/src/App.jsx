@@ -7,8 +7,18 @@ import Main from './views/Main'
 
 
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
+import React from 'react'
 
 function App() {
+
+  const[loginState,setLoginState]=React.useState(false)
+
+
+React.useEffect(()=>{
+  const check = window.localStorage.getItem("login")
+  setLoginState(check)
+
+},[loginState])
 
   return (
     <>
@@ -16,8 +26,9 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path='/Main' element={<Main/>}/>
-        <Route path='/Login' element={<Login/>}/>
+      <Route path='/' element={loginState? <Main/> : <Login/> }/> 
+        <Route path='/Login' element={loginState? <Main/> : <Login/> }/> 
+        <Route path='/Main' element={loginState? <Main/> : <Login/> }/>
         <Route path='/Signup' element={<Signup/>}/>
       </Routes>
     </BrowserRouter>
