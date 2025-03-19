@@ -1,8 +1,18 @@
 import React from 'react'
 
-function Main() {
+import SideBar from '../components/sideBar'
+
+function Main(props) {
   return (
-    <div>Main</div>
+    <>
+    <div className=' flex flex-row'>
+      <SideBar/>
+      <div>
+        {props.view}
+      </div>
+    </div>
+    
+    </>
   )
 }
 
