@@ -37,7 +37,7 @@ exports.signUp = async (req,res)=>{
 
 
     await userModel.create({
-        Username:userName,
+        Username:username,
         Password:password,
         Email:email,
         Phone:phone
@@ -83,10 +83,11 @@ exports.logIn = async (req,res)=>{
         username:username
     })
 
+
     if(password === user.password){
         res.json({
             msg:"authentication done succesfully",
-            data:[],
+            data:user,
             state:0
         })
         
