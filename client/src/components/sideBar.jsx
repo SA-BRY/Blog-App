@@ -21,6 +21,12 @@ import {
 
 
 function sideBar() {
+
+const logOut = ()=>{
+  window.localStorage.removeItem("login")
+}
+
+
   return (
     <>
       <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-indigo-900">
@@ -61,7 +67,7 @@ function sideBar() {
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem className='text-white'>
+          <ListItem className='text-white' onClick={logOut}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>

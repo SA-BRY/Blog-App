@@ -32,9 +32,6 @@ React.useEffect(()=>{
         <Route path='/Login' element={loginState? <Main view={<Home/>}/> : <Login/> }/> 
         <Route path='/Main' element={loginState? <Main view={<Home/>}/> : <Login/> }/>
         <Route path='/Inbox' element={loginState? <Main view={<Inbox/>}/> : <Login/> }/>
-
-
-
         <Route path='/Signup' element={<Signup/>}/>
       </Routes>
     </BrowserRouter>
