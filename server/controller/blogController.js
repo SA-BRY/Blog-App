@@ -1,4 +1,5 @@
 const blogModel = require('../model/blogModel')
+const userModel = require('../model/userModel')
 
 
 exports.create = async(req,res)=>{
@@ -43,12 +44,10 @@ exports.create = async(req,res)=>{
             state:0
         })
     })
-
-
 }
 
 
-exports.delete = async(res,req)=>{
+exports.delete = async(req,res)=>{
 
     const id = req.params.id
 
@@ -73,7 +72,7 @@ exports.delete = async(res,req)=>{
 }
 
 
-exports.getBlogs = async (res,req)=>{
+exports.getBlogs = async (req,res)=>{
 
 
     const blogs = await blogModel.find()

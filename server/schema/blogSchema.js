@@ -18,3 +18,6 @@ const blogSchema = new Schema({
         type:String
     }
 })
+
+
+module.exports =  blogSchema;

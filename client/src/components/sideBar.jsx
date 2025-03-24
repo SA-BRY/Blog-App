@@ -15,11 +15,14 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 
+
+
+
+
 function sideBar() {
 
-const logOut = ()=>{
-  window.localStorage.removeItem("login")
-}
+
+
 
 
   return (
@@ -60,24 +63,28 @@ const logOut = ()=>{
               Inbox
             </ListItem>
           </Link>
+          <Link to='/Profile'>
           <ListItem className="text-white">
             <ListItemPrefix>
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
             Profile
           </ListItem>
+          </Link>
           <ListItem className="text-white">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
             </ListItemPrefix>
             Settings
           </ListItem>
+          <Link to='/Login'>
           <ListItem className='text-white'>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
             Log Out
           </ListItem>
+          </Link>
         </List>
       </Card>
     </>

@@ -1,30 +1,58 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
     const Navigate = useNavigate()
     const [username , setUsername] = React.useState("")
     const [password,setPassword] = React.useState("")
-    const [msg,setMsg] = React.useState("")
+
+
 
     const notify = (msg) => toast(msg);
 
 
 
-    const mkLogin = ()=>{
+    const mkLogin = async(e)=>{
+        e.preventDefault(); 
         if(!password,!username){
-            setMsg("Enter Username & Password")
-            notify(msg)
+
+            notify("Enter Username & Password")
             return
         }
 
+        await axios.post('http://localhost:3000/login',{
 
-        
-        window.localStorage.setItem("login", true)
-        
-        Navigate('/Main')
+
+            username:username,
+            password:password
+
+
+
+        }).then((res)=>{
+
+            if(res.data.state===1){
+            
+            Navigate('/Main')
+            console.log(res.data.msg)
+            console.log(res.data.data)
+            window.localStorage.setItem('user',JSON.stringify(res.data.data))
+            console.log(window.localStorage.getItem('user'))
+            return
+            }
+
+            notify(res.data.msg)
+
+        }).catch((err)=>{
+            console.log(err)
+        })
+
+
+
+
+
     }
     
 
@@ -39,9 +67,9 @@ const Login = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form action="#" method="POST" className="space-y-6">
+                <form method="POST" className="space-y-6">
                     <div>
-                        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                        <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                             Username
                         </label>
                         <div className="mt-2">
@@ -49,11 +77,11 @@ const Login = () => {
                                 onChange={(e)=>{
                                     setUsername(e.target.value)
                                 }}
-                                id="email"
-                                name="email"
-                                type="email"
+                                id="username"
+                                name="username"
+                                type="username"
                                 required
-                                autoComplete="email"
+                                autoComplete="username"
                                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>
@@ -65,7 +93,7 @@ const Login = () => {
                                 Password
                             </label>
                             <div className="text-sm">
-                                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                <a onClick={(e) => e.preventDefault()} className="font-semibold text-indigo-600 hover:text-indigo-500">
                                     Forgot password?
                                 </a>
                             </div>
@@ -98,9 +126,9 @@ const Login = () => {
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
                     Not a member?{' '}
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Start a 14 day free trial
-                    </a>
+                    <Link to="/Signup" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                        Signup
+                    </Link>
                 </p>
             </div>
         </div>

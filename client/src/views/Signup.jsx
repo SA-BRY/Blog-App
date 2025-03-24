@@ -2,27 +2,59 @@ import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { useNavigate } from 'react-router-dom';
+import{Link}from  'react-router-dom'
 
-const Login = () => {
+import axios from 'axios'
+
+const Signup = () => {
+
+
     const Navigate = useNavigate()
     const [username , setUsername] = React.useState("")
     const [password,setPassword] = React.useState("")
     const [email,setEmail] = React.useState("")
     const [phone,setPhone] = React.useState("")
-
-    const [msg,setMsg] = React.useState("")
+    const [confirmPassword,setConfirmPassword] = React.useState("")
     const notify = (msg) => toast(msg);
 
 
 
-    const mkSignup = ()=>{
-        if(!password,!username,!email,!phone){
-            setMsg("check all fields")
-            notify(msg)
+    const mkSignup = async (e)=>{
+        e.preventDefault(); 
+
+
+        if(!password||!username||!email||!phone||!confirmPassword){
+            
+            notify("check all fields")
             return
         }
 
-        Navigate('/Main')
+        if (confirmPassword !== password){
+
+            notify('password is not confirmed')
+            return
+        }
+
+        await axios.post('http://localhost:3000/signup',{
+            username:username,
+            password:password,
+            email:email,
+            phone:phone
+        }).then((res)=>{
+            console.log(res.data.msg)
+            console.log(res.data.data)
+            notify(res.data.msg)
+        }).catch((err)=>{
+            console.log(err)
+        
+        })
+
+
+        notify("thanks for joining us")
+
+        Navigate('/Login')
+
+        
     }
     
 
@@ -37,7 +69,7 @@ const Login = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form action="#" method="POST" className="space-y-6">
+                <form  method="POST" className="space-y-6">
                     <div>
                         <label htmlFor="Username" className="block text-sm/6 font-medium text-gray-900">
                             Username
@@ -115,16 +147,12 @@ const Login = () => {
                             <label htmlFor="confirm password" className="block text-sm/6 font-medium text-gray-900">
                             confirm password
                             </label>
-                            <div className="text-sm">
-                                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                    Forgot password?
-                                </a>
-                            </div>
+
                         </div>
                         <div className="mt-2">
                             <input
                                 onChange={(e)=>{
-                                setPassword(e.target.value)
+                                setConfirmPassword(e.target.value)
                                 }}
                                 id="confirm password"
                                 name="confirm password"
@@ -139,7 +167,7 @@ const Login = () => {
                     <div>
                         <button
                             onClick={mkSignup}
-                            type="submit"
+                            
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Signup
@@ -148,10 +176,10 @@ const Login = () => {
                 </form>
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
-                    Not a member?{' '}
-                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Start a 14 day free trial
-                    </a>
+                    have an Account?{' '}
+                    <Link to="/Login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                        Login
+                    </Link>
                 </p>
             </div>
         </div>
@@ -159,4 +187,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;

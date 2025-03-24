@@ -14,15 +14,7 @@ const userSchema = new schema({
     phone:{
         type:String
     },
-    state:{
-        type:Boolean
-    },
-    lastlogin:{
-        type:Date
-    },
-    createdat:{
-        type:Date
-    }
+
 
 })
 

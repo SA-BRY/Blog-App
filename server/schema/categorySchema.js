@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 
 const categorySchema = new Schema({
-    Name : {
+    categoryname : {
         type:String
     }
 })

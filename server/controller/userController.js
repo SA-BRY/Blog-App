@@ -1,7 +1,10 @@
 const userModel = require('../model/userModel')
+const { use } = require('../router/router')
+
 
 exports.signUp = async (req,res)=>{
-
+try {
+    
     const username = req.body.username
     const password = req.body.password
     const email = req.body.email
@@ -18,15 +21,11 @@ exports.signUp = async (req,res)=>{
         return
     }
 
-
     const user = await userModel.findOne({
         username:username
     })
 
-
-
-
-    if(user.username||user.email){
+    if(user){
         res.json({
             msg:"username or email is already used",
             data:[],
@@ -35,23 +34,21 @@ exports.signUp = async (req,res)=>{
         return
     }
 
-
-    await userModel.create({
-        Username:username,
-        Password:password,
-        Email:email,
-        Phone:phone
-    }).then((data)=>{
-        console.log(data)
-        res.json({
-            msg:'data created succesfully',
-            data:data,
-            state:1
+        const newUser = await userModel.create({
+            username,
+            password,
+            email,
+            phone
         })
 
-    }).catch((err)=>{
-        console.log(err)
-    })
+        await newUser.save()
+
+
+
+
+} catch (error) {
+    console.log(error)
+}
 
 }
 
@@ -59,49 +56,75 @@ exports.signUp = async (req,res)=>{
 
 
 
-
-
-
 exports.logIn = async (req,res)=>{
 
+try {
     const username = req.body.username
-    const password = req.body.Password
+    const password = req.body.password
 
 
 
-    if(!username||!password){
-        
+
+    const user = await userModel.findOne({
+        username:username
+    })
+
+    if (!user){
         res.json({
-            msg:"please enter username and password",
+            msg:"user is not found",
             data:[],
             state:0
         })
         return
     }
 
-    const user = await userModel.findOne({
-        username:username
-    })
-
 
     if(password === user.password){
         res.json({
             msg:"authentication done succesfully",
             data:user,
-            state:0
+            state:1
         })
-        
+        console.log(user)
+        return
     }else{
         res.json({
-            msg:"username or password is incorrect",
+            msg:"password is incorrect",
             data:[],
             state:0
         })
-        
     }
+    
+
+} catch (error) {
+    console.log(error)
+}
+}
 
 
 
 
+
+exports.getUser = async (req,res) =>{
+
+    const id = req.params.id
+    
+    const user = await userModel.findOne({
+        _id:id
+    })
+
+    if(user){
+        res.json({
+            msg:'',
+            data:user.username,
+            state:1
+        })
+        return
+    }
+    res.json({
+        msg:'there is no user',
+        data:[],
+        state:1
+    })
 
 }
